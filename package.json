@@ -1,5 +1,5 @@
 {
-  "name": "sp-music-player",
+  "name": "@spartan-components/sp-music-player",
   "version": "0.0.0",
   "description": "Webcomponent sp-music-player following open-wc recommendations",
   "author": "sp-music-player",
@@ -48,5 +48,22 @@
       "eslint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spartan-components/sp-music-player.git"
+  },
+  "keywords": [
+    "Web",
+    "Components",
+    "Custom",
+    "Elements"
+  ],
+  "bugs": {
+    "url": "https://github.com/spartan-components/sp-music-player/issues"
+  },
+  "homepage": "https://github.com/spartan-components/sp-music-player#readme"
 }
