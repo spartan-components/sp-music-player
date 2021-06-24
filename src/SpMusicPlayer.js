@@ -9,7 +9,6 @@ export class SpMusicPlayer extends LitElement {
         color: var(--primary-color);
         counter-reset: tracks;
         display: block;
-        padding: 25px;
       }
       ol {
         padding: 0;
