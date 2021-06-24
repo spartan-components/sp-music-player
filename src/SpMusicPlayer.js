@@ -4,8 +4,8 @@ export class SpMusicPlayer extends LitElement {
   static get styles() {
     return css`
       :host {
-        --primary-color: #000;
-        --secondary-color: #FFF;
+        --primary-color: #fff;
+        --secondary-color: #000;
         color: var(--primary-color);
         counter-reset: tracks;
         display: block;
@@ -21,6 +21,7 @@ export class SpMusicPlayer extends LitElement {
       ol li button {
         background: transparent;
         border: none;
+        color: inherit;
         font: inherit;
         display: inline-block;
         padding: 0.75rem 1.25rem;
@@ -61,6 +62,10 @@ export class SpMusicPlayer extends LitElement {
         margin: 0;
         padding: 0.5rem;
         transition: box-shadow 200ms ease;
+      }
+
+      svg {
+        color: var(--primary-color)
       }
 
       input[type=range] {
