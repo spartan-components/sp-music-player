@@ -7,8 +7,10 @@ export class SpMusicPlayer extends LitElement {
         --primary-color: #fff;
         --secondary-color: #000;
         color: var(--primary-color);
-        counter-reset: tracks;
         display: block;
+      }
+      sp-music-player {
+        counter-reset: tracks;
       }
       ol {
         padding: 0;
