@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { html, css, LitElement } from 'lit-element';
 
 export class SpMusicPlayer extends LitElement {
@@ -183,6 +184,7 @@ export class SpMusicPlayer extends LitElement {
     return {
       album: { type: String },
       artist: { type: String },
+      currentTrackName: { type: String },
       currentTrackIndex: { type: Number},
       currentTrack: { type: Node },
       currentTime: { type: Number },
@@ -207,6 +209,61 @@ export class SpMusicPlayer extends LitElement {
     });
   }
 
+  // Todo: make mediasession work..
+  // __initializeMediaSession() {
+  //   // check if mediasession available
+  //   if ('mediaSession' in navigator) {
+  //     // current track shorthand property
+  //     const currentTrack = this.tracks[this.currentTrackIndex];
+  
+  //     navigator.mediaSession.metadata = new MediaMetadata({
+  //       title: currentTrack.title,
+  //       ...(this.album !== undefined && { album: this.album }),
+  //       ...(this.artist !== undefined && { artist: this.artist }),
+  //     });
+
+  //     console.log(navigator.mediaSession.metadata)
+  //   }
+  // }
+
+  // __updateMediaSession(property) {
+  //   // check if mediasession available
+  //   if ('mediaSession' in navigator) {
+  //     // current track shorthand property
+  //     const currentTrack = this.tracks[this.currentTrackIndex];
+
+  //     if(property === 'title') {
+  //       navigator.mediaSession.metadata.title = currentTrack.title;
+  //     }
+  //     console.log(navigator.mediaSession.metadata)
+
+  //   }
+  // }
+
+
+  // __handleMediaSessionAction() {
+  //   const trackIndex = this.currentTrackIndex;
+  //   // check if mediasession available
+  //   if('mediaSession' in navigator) {
+  //     navigator.mediaSession.setActionHandler('play', this.__playTrack(trackIndex));
+  //     navigator.mediaSession.setActionHandler('pause', this.__pauseTrack(trackIndex));
+  //     navigator.mediaSession.setActionHandler('previousTrack', () => {
+  //       const nextTrack = (trackIndex - 1 + this.tracks.length) % this.tracks.length;
+  //       this.__updateMediaSession('title');
+  //       this.__pauseTrack(trackIndex);
+  //       this.__playTrack(nextTrack);
+  //       console.log(navigator.mediaSession.metadata)
+
+  //     });
+  //     navigator.mediaSession.setActionHandler('nextTrack', () => {
+  //       const nextTrack = (trackIndex + 1 + this.tracks.length) % this.tracks.length;
+  //       this.__updateMediaSession('title');
+  //       this.__pauseTrack(trackIndex);
+  //       this.__playTrack(nextTrack);
+  //     });
+  //   }
+  // }
+
   __playbackController(nextTrackParam) {
     const prevTrack = this.currentTrackIndex;
     const nextTrack = (nextTrackParam + this.tracks.length) % this.tracks.length;
@@ -219,8 +276,10 @@ export class SpMusicPlayer extends LitElement {
     } else {
       this.__pauseTrack(prevTrack);
       this.__playTrack(nextTrack);
+      // this.__updateMediaSession('title');
     }
   }
+
 
   __updateTime(index, e) {
     if (e === undefined) {
@@ -240,13 +299,17 @@ export class SpMusicPlayer extends LitElement {
     this.currentTrack.play();
     // subscribe to the current time
     this.currentTrack.addEventListener('timeupdate', () => this.__updateTime(index));
+    // add 'ended' event listener, skip to next track if end of file reached
+    this.currentTrack.addEventListener('ended', () => this.__playbackController(index+1));
   }
 
   __pauseTrack(index) {
     // pause the selected track
     this.tracks[index].audioNode.pause();
-    // remove event listener
+    // remove event listeners
     this.tracks[index].audioNode.addEventListener('timeupdate', () => this.__updateTime(index));
+    this.tracks[index].audioNode.removeEventListener('ended', () => this.__playbackController(index));
+
   }
 
   connectedCallback() {
@@ -255,6 +318,7 @@ export class SpMusicPlayer extends LitElement {
     this.__initializeTracks();
     this.currentTrack = this.tracks[0].audioNode;
     this.currentTrackIndex = 0;
+    // this.__initializeMediaSession();
   }
 
   prevButton() {
