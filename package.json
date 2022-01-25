@@ -1,6 +1,6 @@
 {
   "name": "@spartan-components/sp-music-player",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Webcomponent sp-music-player following open-wc recommendations",
   "author": "sp-music-player",
   "license": "MIT",
